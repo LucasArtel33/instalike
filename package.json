@@ -1,0 +1,41 @@
+{
+  "name": "instalike",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www",
+    "migrate": "npx sequelize-cli db:migrate",
+    "migrate:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npm run migrate",
+    "doc": "npx apidoc -e node_modules  -i ./controller/",
+    "pretest_dev": "npm run migrate_test:reset",
+    "test_dev": "jest  --detectOpenHandles --silent --coverage --forceExit --testTimeout=10000 --config ./jest.config.json",
+    "migrate_test:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npm run migrate && npx sequelize-cli db:seed:all --seeders-path seeders/test"
+  },
+  "apidoc": {
+    "name": "Instalike",
+    "version": "1.0.0",
+    "description": "Instalike documentation",
+    "apidoc": {
+      "title": "Instalike documentation"
+    }
+  },
+  "author": "Lucas ARTEL",
+  "license": "ISC",
+  "dependencies": {
+    "apidoc": "^0.27.1",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^9.0.1",
+    "express": "^4.17.1",
+    "jest": "^26.6.3",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.6.2",
+    "sequelize-cli": "^6.2.0",
+    "supertest": "^6.1.3"
+  }
+}
