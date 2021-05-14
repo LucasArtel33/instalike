@@ -11,8 +11,6 @@ const hashtagService = require('../services/hashtag.service');
 const { Op } = require('sequelize')
 const moment = require('moment')
 
-
-
 /**
  * @api {post} /posts Add one post
  * @apiName addPost
@@ -57,7 +55,6 @@ exports.post_add = (req, res, next) => {
   
   Object.assign(req.body, {"image":req.file.filename})
   Object.assign(req.body, {"UserId":res.locals.userConnected.userId})
-  Object.assign(req.body, {"like":0})
 
   Post.create(req.body)
     .then(post => {
@@ -69,6 +66,61 @@ exports.post_add = (req, res, next) => {
     .catch(err => {
       res.status(400).json({"error": "Can't add, bad fields. Check the documentation"})
     })
+}
+
+/**
+ * @api {put} /posts/:id Edit one post
+ * @apiName editPost
+ * @apiGroup Post
+ * 
+ * @apiParam {String} id Id of the post to update
+ * 
+ * @apiParam {String} description Description of the post
+ * @apiParam {String} location Location of the post
+ * @apiParamExemple {json} Request-Example:
+ * {
+ *   "description": "Edit description de mon post #post #dev #description",
+ *   "location": "Bordeaux",
+ * }
+ * 
+ * @apiSuccess (200) {String} message Post updated
+ * @apiSuccessExemple {json} Success-Response:
+ *  HTTP/1.1 201 CREATED
+ * {
+ *   "message": "Post 1 is updated"
+ * }
+ * @apiError Error Cant Add 
+ * @apiErrorExample {json} Error-Response
+ *     HTTP/1.1 400 Bad Request
+ *     {
+ *       "error": "Can't add, bad fields. Check the documentation"
+ *     }
+ */
+ exports.post_add = (req, res, next) => {
+  
+  Object.assign(req.body, {"UserId":res.locals.userConnected.userId})
+
+  Post.update(req.body, {
+    where:{
+      id: req.params.id
+    }
+  })
+    .then(post => {
+      hashtagService.addHashtag(post)
+        .then( post => {
+          if(post > 0){
+            res.status(201).json({'message': `Post ${id} is updated`});
+          } else {
+            res.status(404).json([]);
+        }
+        })
+    })
+    .catch(error=>{
+      if(error.name == "SequelizeUniqueConstraintError"){
+          res.status(403).json({'error': `Duplicate entry. Impossible to add`});
+      }
+  })
+
 }
 
 /**
@@ -353,6 +405,3 @@ exports.post_list = (req, res, next) => {
     })
     .catch( err => console.log(err))
  }
-
-
-
