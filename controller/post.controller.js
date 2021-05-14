@@ -89,12 +89,15 @@ exports.post_add = (req, res, next) => {
  * {
  *   "message": "Post 1 is updated"
  * }
- * @apiError Error Cant Add 
- * @apiErrorExample {json} Error-Response
- *     HTTP/1.1 400 Bad Request
- *     {
- *       "error": "Can't add, bad fields. Check the documentation"
- *     }
+ * @apiError DuplicateEntry Duplicate entry. Impossible to add
+ * @apiErrorExample {json} Duplicate entry
+ * HTTP/1.1 403 Bad Request
+ * {
+ *   "error": "Can't add, bad fields. Check the documentation"
+ * }
+ * @apiErrorExample {json} NothingToUpdate
+ * HTTP/1.1 404 Not Found
+ * []
  */
  exports.post_add = (req, res, next) => {
   
