@@ -136,6 +136,7 @@ exports.post_delete = (req, res, next) => {
  *       ],
  *       "Comments": [
  *           {
+ *               "id": 1,
  *               "UserId": "5106c47c-ac79-48b5-8839-3682fc625bbb",
  *               "content": "commentaires",
  *               "commentParent": null,
@@ -145,6 +146,7 @@ exports.post_delete = (req, res, next) => {
  *               }
  *           },
  *           {
+ *               "id": 2,
  *               "UserId": "5106c47c-ac79-48b5-8839-3682fc625bbb",
  *               "content": "reponse",
  *               "commentParent": 1,
@@ -191,7 +193,7 @@ exports.post_list = (req, res, next) => {
             },
             {
               model: Comment,
-              attributes:['UserId','content','commentParent', 'createdAt'],
+              attributes:['id','UserId','content','commentParent', 'createdAt'],
               include: {
                 model: User,
                 attributes: ['username']

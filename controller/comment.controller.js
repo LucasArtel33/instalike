@@ -15,7 +15,7 @@ const Post = require('../models').Post
  * 
  * @apiSuccess (200) {String} success Comment added
  * @apiSuccessExemple {json} Success-Response:
- *  HTTP/1.1 200 OK
+ *  HTTP/1.1 201 CREATED
  * {
  *   "success":"comment added"
  * }
@@ -38,7 +38,7 @@ exports.create_comment = (req, res, next) => {
         Object.assign(req.body, {"UserId":res.locals.userConnected.userId})
         Comment.create(req.body)
           .then(() => {
-            res.status(200).json({"success":"Comment added"})
+            res.status(201).json({"success":"Comment added"})
           })
         } else {
           res.status(404).json({"error":"Post not found"})
@@ -59,7 +59,7 @@ exports.create_comment = (req, res, next) => {
  * 
  * @apiSuccess (200) {String} success Comment added
  * @apiSuccessExemple {json} Success-Response:
- *  HTTP/1.1 200 OK
+ *  HTTP/1.1 201 CREATED
  * {
  *   "success":"reply added"
  * }
@@ -85,7 +85,7 @@ exports.create_comment = (req, res, next) => {
         Object.assign(req.body, {"UserId":res.locals.userConnected.userId})
         Comment.create(req.body)
           .then(() => {
-            res.status(200).json({"success":"reply added"})
+            res.status(201).json({"success":"reply added"})
           })
         } else {
           res.status(404).json({"error":"comment not found"})
